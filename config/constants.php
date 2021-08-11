@@ -1,7 +1,7 @@
 <?php 
     return array(
         'site_title' => 'Thinkin Pro',
-        'site_logo' => 'public/config/VZcwMtrwRvyBvwNCZzcnt86bFxYzY9e6aBMYXl1l.png',
+        'site_logo' => 'public/config/XnGZrQs1sT0D9RVBOMJeyhvqsjavZh1Ov82ajeD0.jpg',
         'site_email' => 'admin@admin.com',
         'site_icon' => 'public/config/XCphG0DUtaFvfqhhCpVKp2c5z9CWdwqLjwz3exW2.png',
         'site_copyright' => 'Thinkin Cab 2021',

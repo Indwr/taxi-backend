@@ -32,6 +32,7 @@ class TokenController extends Controller
      */
     public function register(Request $request)
     {
+       
         if ($request->referral_code != null) {
             $validate['referral_unique_id']=$request->referral_code;
             $validator                     = (new ReferralResource())->checkReferralCode($validate);
@@ -40,8 +41,8 @@ class TokenController extends Controller
                 throw new \Illuminate\Validation\ValidationException($validator);
             }
         }
-
         $referral_unique_id=(new ReferralResource())->generateCode();
+      
 
         $this->validate($request, [
             'device_id'    => 'required',
@@ -55,7 +56,6 @@ class TokenController extends Controller
             'password'     => 'required|min:6|confirmed',
             //'service_model' => 'required'
         ]);
-
         try {
         $Provider = new Provider();
 
@@ -76,13 +76,13 @@ class TokenController extends Controller
 
         $Provider->save();
 
+       
         ProviderService::create([
-        		'provider_id' => $Provider->id,
+        		'provider_id' => $Provider['id'],
         		'service_type_id' => $request->service_type,
         		'service_number' => $request->service_number,
         		'service_model' => $request->service_model,
         	]);
-
         ProviderDevice::create([
             'provider_id' => $Provider->id,
             'udid'        => $request->device_id,
