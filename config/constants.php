@@ -36,7 +36,7 @@
         'provider_search_radius' => '40',
         'distance_map' => 'kms',
 
-        'map_key' => 'AIzaSyChlQsXUObrzh6mT6CuohdHxz1cTK_Gi4o',
+        'map_key' => 'AIzaSyAIOnoalDGYj5NpiTwaXLVeQRRptEWQ4dc',
         'server_map_key' => 'AIzaSyBKE8TdSuMS_Vg748VuXwg2mjTnSm3vlrw',
         'fb_app_version' => 'v1.4.3',
         'android_sender_key' => '952820941384',
