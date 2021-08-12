@@ -4,7 +4,7 @@
         'site_logo' => 'public/config/XnGZrQs1sT0D9RVBOMJeyhvqsjavZh1Ov82ajeD0.jpg',
         'site_email' => 'admin@admin.com',
         'site_icon' => 'public/config/XCphG0DUtaFvfqhhCpVKp2c5z9CWdwqLjwz3exW2.png',
-        'site_copyright' => 'Thinkin Cab 2021',
+        'site_copyright' => 'Toco 2021',
         'stripe_publishable_key' => 'pk_test_PMYaUNmrK3jo5j4juAV282vy',
         'stripe_secret_key' => 'sk_test_UooZBWk1siShCS7RPfkOheMe',
         'contact_number' => '8126961804',
