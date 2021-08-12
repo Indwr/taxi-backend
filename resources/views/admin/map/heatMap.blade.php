@@ -42,7 +42,7 @@
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 10,
-                center: { lat: {{ $locations[0]['lat'] }}, lng: {{ $locations[0]['lng'] }} },
+                center: { lat: {{ ($locations[0]['lat']) ?? 30.704649 }}, lng: {{ ($locations[0]['lng']) ?? 76.717873 }} },
                 mapTypeId: "terrain",
             });
             heatmap = new google.maps.visualization.HeatmapLayer({

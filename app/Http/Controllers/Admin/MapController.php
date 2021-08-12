@@ -41,7 +41,7 @@ class MapController extends Controller
         $rides = UserRequest::has('user')->orderBy('id', 'desc')->get();
 
         $data = [];
-
+        $locations = [];
         foreach ($rides as $ride) {
             $locations[] = ['lat' => $ride->s_latitude, 'lng' => $ride->s_longitude];
             // $locations = $provider_location->merge($user_location);
