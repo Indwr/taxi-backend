@@ -418,7 +418,10 @@ class TripController extends Controller
     public function accept(Request $request, $id)
     {
         //try {
-        $UserRequest = UserRequest::with('user')->findOrFail($id);
+                $UserRequest = UserRequest::with('user')->find($id);
+                if($UserRequest == null){
+                    return response()->json(['error' => 'Not Found']);
+                }
 
         //TODO ALLAN - Verifica se a viagem já foi atribuída a um motorista
         // if (config('constants.broadcast_request', 0) == 1) {
