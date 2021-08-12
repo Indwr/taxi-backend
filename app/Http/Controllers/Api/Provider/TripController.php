@@ -1600,7 +1600,6 @@ class TripController extends Controller
 
             return response()->json(['wallet_transation' => $wallet_transation, 'wallet_balance' => auth()->user()->wallet_balance]);
         } catch (Exception $e) {
-            dump($e);
             return response()->json(['error' => trans('api.something_went_wrong')]);
         }
     }
