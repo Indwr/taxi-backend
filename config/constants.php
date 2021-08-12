@@ -1,6 +1,6 @@
 <?php 
     return array(
-        'site_title' => 'Thinkin Pro',
+        'site_title' => 'Toco',
         'site_logo' => 'public/config/XnGZrQs1sT0D9RVBOMJeyhvqsjavZh1Ov82ajeD0.jpg',
         'site_email' => 'admin@admin.com',
         'site_icon' => 'public/config/XCphG0DUtaFvfqhhCpVKp2c5z9CWdwqLjwz3exW2.png',
@@ -12,7 +12,7 @@
 
         'demo_mode' => '0',
         
-        'store_link_android_user' => 'https://play.google.com/store/apps/details?id=com.thinkinservice.app',
+        'store_link_android_user' => 'https://play.google.com/store/apps/details?id=com.rapido.passenger',
         'version_android_user' => '1',
         'store_link_android_provider' => 'https://play.google.com/store/apps/details?id=com.thinkinservice.app',
         'version_android_provider' => '1',
