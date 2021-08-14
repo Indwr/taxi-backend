@@ -390,6 +390,8 @@ return array (
     'city' => 'City',
     'city_limits' => 'City Limits',
     'city_name' => 'City Name',
+    'country_name' => 'Country Name',
+    'state_name' => 'State Name',
     'commission' => 'Commission',
     'company' => 'Company',
     'company_logo' => 'Company Logo',

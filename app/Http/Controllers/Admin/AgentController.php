@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\Agent;
+use App\Models\Cities;
+use App\Models\Countries;
+use App\Models\GeoFencing;
+use Illuminate\Support\Facades\DB;
 
 class AgentController extends Controller
 {
@@ -40,7 +44,8 @@ class AgentController extends Controller
     public function create()
     {
         $this->authorize('create agents', Agent::class);
-        return view('admin.agent.create');
+        $geoFencing = GeoFencing::get();
+        return view('admin.agent.create',compact('geoFencing'));
     }
 
     /**

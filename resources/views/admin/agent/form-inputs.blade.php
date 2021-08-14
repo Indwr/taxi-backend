@@ -17,6 +17,15 @@
     @if(!$editing)
         <x-inputs.password name="password" :label="__('crud.inputs.password')" value="{{ old('password', ($editing ? $agent->password : '')) }}"></x-inputs.password>
     @endif
+    <x-inputs.select name="geoFencing_id" id="geoFencing_id" label="{{ __('crud.inputs.city_name') }}">
+        <option value="NULL" hidden>Select City For Agent</option>
+        @forelse ($geoFencing as $geo)
+            <option  value="{{ $geo->id }}">{{ $geo->city_name }}</option>
+        @empty
+            <option hidden>No City Found</option>
+        @endforelse
+    </x-inputs.select>
+ 
     
     <div class="w-full md:w-1/2 px-4 mb-4 md:mb-0">
         <div class="mb-6">
@@ -44,6 +53,18 @@
 
 @push('endScripts')
     <script>
+
+$(document).on('change', '.statusPrimary', function() {
+            var id = $(this).data('id');
+            var url = baseUrl+'api/user/city/'+id;
+            $.get(url, { }, function(response) {
+                if (response.success == true) {
+                   
+                } 
+            }, 'json');
+    });
+
+
         /* Alpine component for avatar uploader viewer */
         function avatarComponentData() {
             return {

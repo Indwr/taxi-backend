@@ -1,0 +1,1 @@
+CREATE PROCEDURE GetAllCities() BEGIN SELECT * FROM cities; END

@@ -29,6 +29,7 @@ class StoreAgentRequest extends FormRequest
             'mobile' => 'required|string|',
             'password' => 'required|min:8',
             'avatar' => 'sometimes|file|max:2048',
+            'geoFencing_id' => 'required|integer',
         ];
     }
 }
