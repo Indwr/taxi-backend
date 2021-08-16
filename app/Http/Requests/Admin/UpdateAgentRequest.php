@@ -28,6 +28,7 @@ class UpdateAgentRequest extends FormRequest
             'email' => 'required|email|max:320',
             'mobile' => 'required|string|',
             'avatar' => 'sometimes|file|max:2048',
+            'geoFencing_id' => 'required|integer'
         ];
     }
 }

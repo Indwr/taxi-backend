@@ -19,6 +19,7 @@
                         <th class="text-center px-4 py-3">{{ __('crud.inputs.name') }}</th>
                         <th class="text-center px-4 py-3">{{ __('crud.inputs.email') }}</th>
                         <th class="text-center px-4 py-3">{{ __('crud.inputs.phone') }}</th>
+                        <th class="text-center px-4 py-3">{{ __('crud.inputs.city') }}</th>
                         <th class="text-center px-4 py-3">{{ __('crud.general.actions') }}</th>
                     </tr>
                 </thead>
@@ -48,11 +49,14 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-4 dark:text-gray-400 dark:bg-gray-800 py-3 text-sm">
+                            <td class="text-center dark:text-gray-400 dark:bg-gray-800 px-4 py-3 text-sm">
                                 {{ $agent->email ?? '-'}}
                             </td>
                             <td class="text-center dark:text-gray-400 dark:bg-gray-800 px-4 py-3 text-sm">
                                 {{ $agent->mobile }}
+                            </td>
+                            <td class="text-center dark:text-gray-400 dark:bg-gray-800 px-4 py-3 text-sm">
+                                {{ $agent->geoFence->city_name }}
                             </td>
                             <td>
                                 <div class="flex items-center justify-center">

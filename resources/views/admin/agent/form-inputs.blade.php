@@ -20,7 +20,7 @@
     <x-inputs.select name="geoFencing_id" id="geoFencing_id" label="{{ __('crud.inputs.city_name') }}">
         <option value="NULL" hidden>Select City For Agent</option>
         @forelse ($geoFencing as $geo)
-            <option  value="{{ $geo->id }}">{{ $geo->city_name }}</option>
+            <option {{ ($editing ? ($agent->geoFence->city_name == $geo->city_name ? 'selected' : '') : '') }}  value="{{ $geo->id }}">{{ $geo->city_name }}</option>
         @empty
             <option hidden>No City Found</option>
         @endforelse

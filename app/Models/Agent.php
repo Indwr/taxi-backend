@@ -22,6 +22,11 @@ class Agent extends Authenticatable
     {
         return $this->hasMany(Provider::class);
     }
+
+    public function geoFence()
+    {
+        return $this->hasOne(GeoFencing::class, 'id', 'geoFencing_id');
+    }
     
     public function walletRequest()
     {

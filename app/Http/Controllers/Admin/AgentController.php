@@ -29,9 +29,10 @@ class AgentController extends Controller
         $this->authorize('list agents', Agent::class);
         $search = $request->get('search', '');
 
-        $agents = Agent::search($search)
+        $agents = Agent::with('geoFence')->search($search)
             ->latest()
             ->paginate();
+            // dd($agents);
 
         return view('admin.agent.index', compact('agents', 'search'));
     }
@@ -89,7 +90,8 @@ class AgentController extends Controller
     public function edit(Agent $agent)
     {
         $this->authorize('view agents', $agent);
-        return view('admin.agent.edit', compact('agent'));
+        $geoFencing = GeoFencing::get();
+        return view('admin.agent.edit', compact('agent','geoFencing'));
     }
 
     /**
