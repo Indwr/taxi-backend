@@ -706,12 +706,12 @@ class TripController extends Controller
                         ]);
                     }
                 } else {
-                    die('here');
+                  
                     if ($UserRequest->status == 'COMPLETED') {
                         //for off cross clicking on change payment issue on mobile
                         return true;
                     }
-
+                    die('here');
                     $UserRequest->status       = $request->status;
                     $UserRequest->paid         = 1;
                     $UserRequest->payment_mode = ($request->payment_mode ? $request->payment_mode : $UserRequest->payment_mode);
