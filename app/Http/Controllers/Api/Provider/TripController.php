@@ -714,11 +714,12 @@ class TripController extends Controller
                     $UserRequest->status       = $request->status;
                     $UserRequest->paid         = 1;
                     $UserRequest->payment_mode = ($request->payment_mode ? $request->payment_mode : $UserRequest->payment_mode);
+                   
+                    (new SendPushNotification())->Complete($UserRequest);
                     print_r($UserRequest);
                     die('here1');
                     
-                    (new SendPushNotification())->Complete($UserRequest);
-
+                    
                     //for completed payments
                     $RequestPayment               = UserRequestPayment::where('request_id', $id)->first();
                     $RequestPayment->payment_mode = ($request->payment_mode ? $request->payment_mode : $UserRequest->payment_mode);
