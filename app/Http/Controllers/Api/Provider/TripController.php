@@ -809,8 +809,6 @@ class TripController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => trans('api.unable_accept')]);
         } catch (Exception $e) {
-            print_r($e);
-            die('here');
             return response()->json(['error' => trans('api.connection_err')]);
         }
     }
