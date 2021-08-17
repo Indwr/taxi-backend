@@ -719,11 +719,11 @@ class TripController extends Controller
                     
                     
                     //for completed payments
-                    $RequestPayment               = UserRequestPayment::where('request_id', $id)->first();
-                    $RequestPayment->payment_mode = ($request->payment_mode ? $request->payment_mode : $UserRequest->payment_mode);
-                    $RequestPayment->cash         = $RequestPayment->payable;
-                    $RequestPayment->payable      = 0;
-                    $RequestPayment->save();
+                    // $RequestPayment               = UserRequestPayment::where('request_id', $id)->first();
+                    // $RequestPayment->payment_mode = ($request->payment_mode ? $request->payment_mode : $UserRequest->payment_mode);
+                    // $RequestPayment->cash         = $RequestPayment->payable;
+                    // $RequestPayment->payable      = 0;
+                    // $RequestPayment->save();
                 }
             } else {
                 $UserRequest->status = $request->status;
