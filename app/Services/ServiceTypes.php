@@ -230,11 +230,12 @@ class ServiceTypes
     public function applyPriceLogic($requestarr, $iflag=0)
     {
         $fn_response=[];
-        \Log::alert("010");
+        // \Log::alert("010");
         //\Log::alert($requestarr);
+    
         try {
+           
             $service_type = ServiceType::findOrFail($requestarr['service_type']);
-
             if ($iflag == 0) {
                 //for estimated fare
             $total_kilometer = $requestarr['meter']; //TKM || TMi

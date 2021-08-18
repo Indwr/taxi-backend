@@ -66,7 +66,7 @@ use Illuminate\Support\Facades\File;
     {
         if (!empty($latitude) && !empty($longitude)) {
             //Send request and receive json data by address
-            $geocodeFromLatLong = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($latitude) . ',' . trim($longitude) . '&sensor=false&key=' . config('constants.server_map_key'));
+            $geocodeFromLatLong = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?latlng=' . trim($latitude) . ',' . trim($longitude) . '&sensor=false&key=' . env('SERVER_MAP_KEY'));
             $output             = json_decode($geocodeFromLatLong);
             $status             = $output->status;
             //Get address from json data

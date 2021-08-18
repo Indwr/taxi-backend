@@ -292,7 +292,7 @@ class ConfigController extends Controller
                 'distance_map' => '',
         
                 'map_key' => '',
-                'server_map_key' => '',
+                'server_map_key' => 'AIzaSyCO4IzTX255QIDIjy3eqv1oDfKAaEg6_h0',
                 'fb_app_version' => '',
                 'android_sender_key' => '',
         

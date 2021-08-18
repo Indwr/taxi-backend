@@ -417,6 +417,7 @@ class TripController extends Controller
      */
     public function accept(Request $request, $id)
     {
+     
         //try {
                 $UserRequest = UserRequest::with('user')->find($id);
                 if($UserRequest == null){
@@ -442,7 +443,6 @@ class TripController extends Controller
         if ($UserRequest->current_provider_id != auth()->user()->id && config('constants.broadcast_request', 0) == 0) {
             return response()->json(['error' => 'Tempo esgotado!']);
         }
-
         if ($UserRequest->status != 'SEARCHING') {
             return response()->json(['error' => trans('api.ride.request_inprogress')]);
         }
@@ -614,10 +614,11 @@ class TripController extends Controller
      */
     public function update(Request $request, $id)
     {
+   
+    
         $this->validate($request, [
             'status' => 'required|in:ACCEPTED,STARTED,ARRIVED,PICKEDUP,DROPPED,PAYMENT,COMPLETED',
         ]);
-
         try {
             $UserRequest = UserRequest::with('user')->findOrFail($id);
 
@@ -719,11 +720,11 @@ class TripController extends Controller
                     
                     
                     //for completed payments
-                    // $RequestPayment               = UserRequestPayment::where('request_id', $id)->first();
-                    // $RequestPayment->payment_mode = ($request->payment_mode ? $request->payment_mode : $UserRequest->payment_mode);
-                    // $RequestPayment->cash         = $RequestPayment->payable;
-                    // $RequestPayment->payable      = 0;
-                    // $RequestPayment->save();
+                    $RequestPayment               = UserRequestPayment::where('request_id', $id)->first();
+                    $RequestPayment->payment_mode = ($request->payment_mode ? $request->payment_mode : $UserRequest->payment_mode);
+                    $RequestPayment->cash         = $RequestPayment->payable;
+                    $RequestPayment->payable      = 0;
+                    $RequestPayment->save();
                 }
             } else {
                 $UserRequest->status = $request->status;
@@ -754,11 +755,11 @@ class TripController extends Controller
                 }
             }
 
-            
+         
             \DB::transaction(function () use ($UserRequest,$request,$id) { // Start the transaction
             
                 $UserRequest->save();
-            
+               
             
             if ($request->status == 'DROPPED') {
                 if ($UserRequest->is_track == 'YES') {
@@ -774,6 +775,7 @@ class TripController extends Controller
                     $route_key                    = (count($details['routes']) > 0) ? $details['routes'][0]['overview_polyline']['points'] : '';
                     $UserRequest->route_key       = $route_key;
                 }
+                
 
                 //Calcula distância final com localização do motorista
                 if ($request->ajax()) {
@@ -781,10 +783,11 @@ class TripController extends Controller
                 } else {
                     $Provider = auth()->guard('provider')->user();
                 }
+       
                 $locationarr            = ['s_latitude' => $UserRequest->s_latitude, 's_longitude' => $UserRequest->s_longitude, 'd_latitude' => $Provider->latitude, 'd_longitude' => $Provider->longitude];
                 $UserRequest->distance  = $this->getLocationDistance($locationarr);
                 $UserRequest->d_address = getAddress($Provider->latitude, $Provider->longitude);
-
+               
                 $UserRequest->finished_at = Carbon::now();
                 $StartedDate              = date_create($UserRequest->started_at);
                 $FinisedDate              = Carbon::now();
@@ -796,7 +799,6 @@ class TripController extends Controller
                 $UserRequest->save();
                 $UserRequest->with('user')->findOrFail($id);
                 $UserRequest->invoice = $this->invoice($id, ($request->toll_price != null) ? $request->toll_price : 0);
-
                 (new SendPushNotification())->Dropped($UserRequest);
             }
             }); // End transaction
@@ -827,11 +829,11 @@ class TripController extends Controller
             $s_longitude = $locationarr['s_longitude'];
             $d_latitude  = empty($locationarr['d_latitude']) ? $locationarr['s_latitude'] : $locationarr['d_latitude'];
             $d_longitude = empty($locationarr['d_longitude']) ? $locationarr['s_longitude'] : $locationarr['d_longitude'];
-            $apiurl      = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $s_latitude . ',' . $s_longitude . '&destinations=' . $d_latitude . ',' . $d_longitude . '&mode=driving&sensor=false&units=imperial&key=' . config('constants.server_map_key');
+            $apiurl      = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $s_latitude . ',' . $s_longitude . '&destinations=' . $d_latitude . ',' . $d_longitude . '&mode=driving&sensor=false&units=imperial&key=' . env('SERVER_MAP_KEY');
+            
             $client      = new Client();
             $location    = $client->get($apiurl);
             $location    = json_decode($location->getBody(), true);
-
             if (!empty($location['rows'][0]['elements'][0]['status']) && $location['rows'][0]['elements'][0]['status'] == 'ZERO_RESULTS') {
                 throw new Exception('Out of service area', 1);
             }
@@ -945,12 +947,12 @@ class TripController extends Controller
 
     public function invoice($request_id, $toll_price = 0)
     {
-        try {
+        // try {
             $UserRequest                    = UserRequest::with('provider')->with('service_type')->findOrFail($request_id);
             $tax_percentage                 = config('constants.tax_percentage', 0);
             $commission_percentage          = config('constants.commission_percentage', 0);
             $provider_commission_percentage = config('constants.provider_commission_percentage');
-
+            
             $Fixed              = 0;
             $Distance           = 0;
             $Discount           = 0; // Promo Code discounts should be added here.
@@ -963,7 +965,8 @@ class TripController extends Controller
             $Minute_fare        = 0;
             $calculator         = 'DISTANCE';
             $discount_per       = 0;
-
+            
+           
             //added the common function for calculate the price
             $requestarr['kilometer']    = $UserRequest->distance;
             $requestarr['time']         = 0;
@@ -983,7 +986,8 @@ class TripController extends Controller
             $requestarr['day']= $UserRequest->day ?? 0;
             $response  = new ServiceTypes();
             $pricedata = $response->applyPriceLogic($requestarr, 1);
-            \Log::alert($pricedata);
+          
+            // \Log::alert($pricedata);
             if (!empty($pricedata)) {
                 $Distance      = $pricedata['price'] + $item;
                 $Fixed         = ($pricedata['base_price'] < $pricedata['price'] ? $pricedata['price'] : $pricedata['base_price']);
@@ -1019,7 +1023,6 @@ class TripController extends Controller
                     $payable_amount = $Distance + $Tax - $Discount;
                 }
             }
-
             $Total          = $Distance + $Tax;
             $payable_amount = $Distance + $Tax - $Discount;
 
@@ -1033,13 +1036,13 @@ class TripController extends Controller
                 $Total          = 0.00; // prevent from negative value
                 $payable_amount = 0.00;
             }
-
+          
             //changed by tamil
             $Commision = ($Total) * ($commission_percentage / 100);
 
             $ProviderCommission = 0;
             $ProviderPay        = (($Total + $Discount) - $Commision) - $Tax;
-
+            
             $Payment             = new UserRequestPayment();
             $Payment->request_id = $UserRequest->id;
 
@@ -1059,13 +1062,17 @@ class TripController extends Controller
                     }
                 }
             }
-
+           
             $start_time = $UserRequest->started_at;
             $end_time   = $UserRequest->finished_at;
-
-            $start_time_check = PeakHour::where('start_time', '<=', $start_time)->where('end_time', '>=', $start_time)->first();
-            $end_time_check   = PeakHour::where('start_time', '<=', $end_time)->where('end_time', '>=', $end_time)->first();
-
+            $start_time_check = null;
+            $end_time_check = null;
+            if(!empty($start_time)){
+                $start_time_check = PeakHour::where('start_time', '<=', $start_time)->where('end_time', '>=', $start_time)->first();
+            }
+            if(!empty($end_time)){
+                $end_time_check   = PeakHour::where('start_time', '<=', $end_time)->where('end_time', '>=', $end_time)->first();
+            }
             if ($start_time_check) {
                 $Peakcharges = ServicePeakHour::where('service_type_id', $UserRequest->service_type_id)->where('peak_hours_id', $start_time_check->id)->first();
 
@@ -1100,8 +1107,9 @@ class TripController extends Controller
             } else {
                 $Total += $peakamount + $total_waiting_amount + $toll_price;
                 $payable_amount += $peakamount + $total_waiting_amount + $toll_price;
-
+                
                 $ProviderPay = $ProviderPay + ($peakamount + $total_waiting_amount) + $toll_price;
+            
             }
 
             //Verifica se existe horário de pico
@@ -1134,7 +1142,7 @@ class TripController extends Controller
             if ($Discount == ($Distance + $Tax)) {
                 $UserRequest->paid = 1;
             }
-
+           
             if ($UserRequest->use_wallet == 1 && $payable_amount > 0) {
                 $User = User::find($UserRequest->user_id);
 
@@ -1190,9 +1198,9 @@ class TripController extends Controller
             $Payment->save();
 
             return $Payment;
-        } catch (ModelNotFoundException $e) {
-            return $e->getMessage();
-        }
+        // } catch (ModelNotFoundException $e) {
+        //     return $e->getMessage();
+        // }
     }
 
     /**

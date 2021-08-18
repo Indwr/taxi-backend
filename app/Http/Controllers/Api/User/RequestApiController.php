@@ -129,6 +129,7 @@ class RequestApiController extends Controller
      */
     public function send_request(Request $request)
     {
+      
         if ($request->ajax()) {
             $this->validate($request, [
                 's_latitude'   => 'required|numeric',
@@ -163,7 +164,6 @@ class RequestApiController extends Controller
                 'card_id' => ['required_if:payment_mode,CARD', 'exists:cards,card_id,user_id,' . auth()->user()->id],
             ]);
         }
-
         $check =$this->poly_check_request((round($request->s_latitude, 6)), (round($request->s_longitude, 6)));
 
         if ($check == 'no') {
@@ -220,7 +220,6 @@ class RequestApiController extends Controller
             })
             ->orderBy('distance', 'asc')
             ->get();
-        // dd($Providers);
         //Log::info($Providers);
         // List Providers who are currently busy and add them to the filter list.
 
