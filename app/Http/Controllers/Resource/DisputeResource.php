@@ -90,9 +90,8 @@ class DisputeResource extends Controller
             // if ($admin != null) {
             //     $admin->notify(new WebPush('Notifications', trans('admin.dispute.new_dispute'), url('/')));
             // }
-
             if ($request->ajax()) {
-                return response()->json(['message' => trans('admin.dispute_msgs.saved')]);
+                return response()->json(['message' => 'Dispute has been submited.']);
             } else {
                 return back()->with('flash_success', trans('admin.dispute_msgs.saved'));
             }
