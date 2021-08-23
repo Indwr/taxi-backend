@@ -454,9 +454,9 @@ class ServiceTypes
             $d_longitude = empty($locationarr['d_longitude']) ? $locationarr['s_longitude'] : $locationarr['d_longitude'];
 
             if (($locationarr['service_required'] ?? 'none') == 'rental') {
-                $apiurl = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $s_latitude . ',' . $s_longitude . '&destinations=' . $s_latitude . ',' . $s_longitude . '&mode=driving&sensor=false&key=' . config('constants.server_map_key');
+                $apiurl = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $s_latitude . ',' . $s_longitude . '&destinations=' . $s_latitude . ',' . $s_longitude . '&mode=driving&sensor=false&key=' . env('SERVER_MAP_KEY');
             } else {
-                $apiurl = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $s_latitude . ',' . $s_longitude . '&destinations=' . $d_latitude . ',' . $d_longitude . '&mode=driving&sensor=false&key=' . config('constants.server_map_key');
+                $apiurl = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' . $s_latitude . ',' . $s_longitude . '&destinations=' . $d_latitude . ',' . $d_longitude . '&mode=driving&sensor=false&key=' . env('SERVER_MAP_KEY');
             }
 
             $client   = new Client();
